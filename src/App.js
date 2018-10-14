@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Provider, Container } from 'rebass';
 
 import { theme } from './theme';
+import { Flex } from './components/base';
 
 import SessionScreen from './screens/session';
 import PreSessionScreen from './screens/preSession';
@@ -62,7 +63,7 @@ class App extends Component {
               <button onClick={this.deleteInput}>delete</button>
               <p>{this.state.text}</p>
     </div>*/}
-            <div>
+            <Flex p={4} width={1} alignItems={'center'}>
               <Link to="/select-deck" style={{ marginRight: '36px' }}>
                 Word List
               </Link>
@@ -70,9 +71,9 @@ class App extends Component {
                 Session
               </Link>
               <Link to="/create-card">Create card</Link>
-            </div>
+            </Flex>
             <Switch>
-              <Route exact path="/" component={SelectDeckScreen} />
+              <Route exact path="/" component={PreSessionScreen} />
               <Route exact path="/select-deck" component={SelectDeckScreen} />
               <Route exact path="/pre-session" component={PreSessionScreen} />
               <Route exact path="/session/:date" component={SessionScreen} />

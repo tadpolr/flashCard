@@ -1,3 +1,3 @@
-const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 72 ]
+const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
 
-export default fontSizes
+export default fontSizes;

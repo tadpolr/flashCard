@@ -10,7 +10,7 @@ class CreateCardForm extends Component {
     description: '',
     multiplier: '',
     subcards: [],
-    note: 'note',
+    note: '',
   };
 
   handleAddCard = () => {
@@ -42,7 +42,6 @@ class CreateCardForm extends Component {
       meanings: [],
       synonyms: '',
       examples: [],
-      note: '',
     });
     this.setState({
       subcards: [...updatedSubcards],

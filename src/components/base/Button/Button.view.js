@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button as RButton } from 'rebass';
 import styled from 'styled-components';
-import { buttonStyle, colorStyle } from 'styled-system';
+import { buttonStyle, colorStyle, space } from 'styled-system';
 
 import { COLOR } from '../../../theme';
 
@@ -41,6 +41,7 @@ const Button = styled(({ condense, disabled, ...restProps }) => <RButton {...res
 `};
   ${colorStyle};
   ${buttonStyle};
+  ${space};
 `;
 
 export default Button;

@@ -12,7 +12,7 @@ class PreSessionScreen extends Component {
 
   render() {
     return (
-      <Box py={8}>
+      <Box py={6}>
         <Text.Header mb={4}>Start today session now?</Text.Header>
         <Button variant={'default'} colors={'primary'} onClick={this.handleEnterSession}>
           Start today session

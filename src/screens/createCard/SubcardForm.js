@@ -11,7 +11,6 @@ const SubcardForm = ({
   onDeleteSubcardDetails,
   onChangeInput,
 }) => {
-  console.log(subcardIndex);
   return (
     <Card p={6} mb={5}>
       <Text.Title mb={6}>{`Subcard ${subcardIndex + 1}`}</Text.Title>

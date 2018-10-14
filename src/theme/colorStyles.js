@@ -46,6 +46,21 @@ const colorStyles = {
       backgroundColor: COLOR.secondaryDark,
     },
   },
+  warning: {
+    color: COLOR.warning,
+    backgroundColor: COLOR.warning,
+    borderColor: COLOR.warning,
+    '&:hover': {
+      color: COLOR.warningLight,
+      borderColor: COLOR.warningLight,
+      backgroundColor: COLOR.warningLight,
+    },
+    '&:active': {
+      color: COLOR.warningDark,
+      borderColor: COLOR.warningDark,
+      backgroundColor: COLOR.warningDark,
+    },
+  },
   danger: {
     color: COLOR.danger,
     backgroundColor: COLOR.danger,
