@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import firebase from './firebase'
-import styled, { ThemeProvider } from 'styled-components'
+import styled from 'styled-components'
+import { Provider, Container } from 'rebass'
 
 import { theme } from './theme'
 
@@ -15,11 +16,12 @@ class App extends Component {
     text: ''
   }
   componentDidMount() {
-    firebase.database().ref('testText').on('value', this.updateText);
+    firebase.database().ref('card').on('value', this.updateText);
   }
   updateText = (snapshot) => {
+    console.log(snapshot.val())
     this.setState({
-      text: snapshot.val().text
+      text: snapshot.val().description.sub
     })
   }
   saveInput = () => {
@@ -41,9 +43,9 @@ class App extends Component {
   }
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      <Provider theme={theme}>
         <Router>
-          <AppContainer>
+          <AppContainer maxWidth={['350px', '704px']}>
             <div className="App">
               <textarea value={this.state.input} onChange={this.handleInputChange}/>
               <button onClick={this.saveInput}>save</button>
@@ -65,13 +67,11 @@ class App extends Component {
           </AppContainer>
         </Router>
 
-      </ThemeProvider>
+      </Provider>
     );
   }
 }
 
 export default App;
 
-const AppContainer = styled.div`
-
-`
+const AppContainer = styled(Container)``
