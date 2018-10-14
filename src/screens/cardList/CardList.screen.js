@@ -1,17 +1,14 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class SelectDeckScreen extends Component {
-    render () {
-        return (
-            <div>
-                This is SelectDeckScreen.
-            </div>
-        )
-    }
-}
+import { Box, Text } from '../../components/base';
 
-SelectDeckScreen.propTypes = {
+const CardList = () => (
+  <Box py={6}>
+    <Text.Title>Word list is coming soon. </Text.Title>
+  </Box>
+);
 
-}
+CardList.propTypes = {};
 
-export default SelectDeckScreen
+export default CardList;

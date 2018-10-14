@@ -1,4 +1,4 @@
-import SelectDeckScreen from './SelectDeck.screen'
+import CardList from './CardList.screen';
 
-export { SelectDeckScreen }
-export default SelectDeckScreen
+export { CardList };
+export default CardList;

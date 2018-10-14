@@ -10,7 +10,7 @@ import { Flex } from './components/base';
 import SessionScreen from './screens/session';
 import PreSessionScreen from './screens/preSession';
 import CreateCardScreen from './screens/createCard';
-import SelectDeckScreen from './screens/selectDeck';
+import CardList from './screens/cardList';
 
 class App extends Component {
   state = {
@@ -64,7 +64,7 @@ class App extends Component {
               <p>{this.state.text}</p>
     </div>*/}
             <Flex p={4} width={1} alignItems={'center'}>
-              <Link to="/select-deck" style={{ marginRight: '36px' }}>
+              <Link to="/cards" style={{ marginRight: '36px' }}>
                 Word List
               </Link>
               <Link to="/pre-session" style={{ marginRight: '36px' }}>
@@ -74,7 +74,7 @@ class App extends Component {
             </Flex>
             <Switch>
               <Route exact path="/" component={PreSessionScreen} />
-              <Route exact path="/select-deck" component={SelectDeckScreen} />
+              <Route exact path="/cards" component={CardList} />
               <Route exact path="/pre-session" component={PreSessionScreen} />
               <Route exact path="/session/:date" component={SessionScreen} />
               <Route exact path="/create-card" component={CreateCardScreen} />
