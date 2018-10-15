@@ -1,3 +1,3 @@
-import SessionCard from './SessionCard.view';
+import SessionCard from './SessionCard';
 
 export default SessionCard;

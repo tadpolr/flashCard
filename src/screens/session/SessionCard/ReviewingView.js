@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { Card, Text, Box, Divider, Flex } from '../../../components/base';
+import { Text, Box, Divider, Flex } from '../../../components/base';
 
 const SubcardArrComponent = ({ title, data = [] }) => (
   <Box mb={3}>
@@ -15,11 +15,14 @@ const SubcardArrComponent = ({ title, data = [] }) => (
     ))}
   </Box>
 );
-const Subcard = ({ word, phonetic, meanings, examples, synonyms }) => (
+const Subcard = ({ word, pos, phonetic, meanings, examples, synonyms }) => (
   <Box>
-    <Text.Subtitle fontWeight={900} mb={1}>
-      {word}
-    </Text.Subtitle>
+    <Flex alignItems={'baseline'}>
+      <Text.Subtitle fontWeight={900} mb={1} mr={1}>
+        {word}
+      </Text.Subtitle>
+      <Text color={'secondaryLight'}>{`<${pos}>`}</Text>
+    </Flex>
     <Text.Hint color={'secondaryLight'} mb={[3, 3, 4]}>
       {phonetic}
     </Text.Hint>
@@ -45,10 +48,11 @@ const ReviewingView = ({ title, description, subcards }) => (
     </Box>
     <Divider my={6} />
     {subcards.map(subcard => {
-      console.log(subcard);
       return (
         <Subcard
+          key={subcard.word}
           word={subcard.word}
+          pos={subcard.pos}
           phonetic={subcard.phonetic}
           meanings={subcard.meanings}
           examples={subcard.examples}

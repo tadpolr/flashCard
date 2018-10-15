@@ -7,10 +7,11 @@ import CreateCardForm from './CreateCardForm';
 
 class CreateCardScreen extends Component {
   render() {
+    const { history } = this.props;
     return (
       <Box py={6}>
         <Text.Header mb={6}>Create New Card</Text.Header>
-        <CreateCardForm />
+        <CreateCardForm history={history} />
       </Box>
     );
   }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
-import firebase from '../../firebase';
+import { firestore } from '../../firebase';
 import { Box, Button, Divider, Input, Select, Textarea } from '../../components/base';
 import SubcardForm from './SubcardForm';
+import { RESULTS, MULTIPLIER } from '../../common/const';
 class CreateCardForm extends Component {
   state = {
     title: '',
@@ -13,8 +15,47 @@ class CreateCardForm extends Component {
     note: '',
   };
 
+  createCardData = () => {
+    const { title, description, multiplier, subcards, note } = this.state;
+    const today = moment().format();
+    const initialMultiplier = multiplier || MULTIPLIER.INIT;
+    const nextDate = moment()
+      .add(1, 'days')
+      .format();
+
+    return {
+      title: title,
+      description: description,
+      subcards: subcards,
+      initialMultiplier: initialMultiplier,
+      note: note,
+      transactions: [{ date: today, result: RESULTS.NEW_WORD, durationToNext: 1 }],
+      nextDate: nextDate,
+    };
+  };
+
   handleAddCard = () => {
-    console.log('add card');
+    const { title } = this.state;
+    const newWord = this.createCardData();
+    firestore
+      .collection('cards')
+      .doc(title)
+      .set(newWord, { merge: true })
+      .then(data => {
+        console.log('Document successfully written!');
+        alert('Card is added');
+        this.setState({
+          title: '',
+          description: '',
+          multiplier: '',
+          subcards: [],
+          note: '',
+        });
+      })
+      .catch(function(error) {
+        console.error('Error writing document: ', error);
+        alert('There is something error.');
+      });
   };
 
   handleAddSubcardDetails = (field, subcardIndex) => {
@@ -38,6 +79,7 @@ class CreateCardForm extends Component {
 
     updatedSubcards.push({
       word: '',
+      pos: '',
       phonetic: '',
       meanings: [],
       synonyms: '',

@@ -1,27 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { firestore } from '../../firebase';
 
 import { Box } from '../../components/base';
-import SessionCard from './SessionCard';
+import SessionView from './Session.screen.view';
 class SessionScreen extends Component {
   state = {
-    currentCardIndex: 0,
+    cards: null,
   };
 
-  handleNext = () => {};
+  componentDidMount() {
+    this.getCards();
+  }
+
+  getCards = () => {
+    const queryDate = moment()
+      .add(3, 'days')
+      .format();
+    firestore
+      .collection('cards')
+      .where('nextDate', '<=', queryDate)
+      .orderBy('nextDate', 'desc')
+      .get()
+      .then(querySnapshot => {
+        let cards = [];
+        querySnapshot.forEach(doc => {
+          cards.push(doc.data());
+        });
+        this.setState({
+          cards: cards,
+        });
+      })
+      .catch(function(error) {
+        console.log('Error getting documents: ', error);
+      });
+  };
+
   render() {
-    const { match } = this.props || {};
+    const { cards } = this.state;
+    const { match, history } = this.props || {};
     const { params } = match || {};
-    const date = params.date;
+
+    if (!cards) {
+      return null;
+    }
+
     return (
       <Box py={[4, 4, 6]}>
-        <SessionCard
-          title={mockData[0].title}
-          description={mockData[0].description}
-          subcards={mockData[0].subcards}
-        />
-        This is SessionScreen. for {moment(date).format('YYYY MM DD')}
+        <SessionView cards={cards} history={history} />
       </Box>
     );
   }
@@ -33,7 +60,7 @@ export default SessionScreen;
 
 const mockData = [
   {
-    title: 'ti tle',
+    title: 'indifference',
     description: 'des crip tion',
     multiplier: 1.5,
     lastTransaction: '2018-10-4T16:08:18+07:00',
@@ -41,6 +68,7 @@ const mockData = [
     subcards: [
       {
         word: 'indifference',
+        pos: 'n.',
         phonetic: 'in-ˈdi-fərn(t)s',
         meanings: [
           'the quality, state, or fact of being indifferent',
@@ -54,6 +82,7 @@ const mockData = [
       },
       {
         word: 'indifferent',
+        pos: 'adj.',
         phonetic: 'in-ˈdi-fərn(t)s',
         meanings: [
           'the quality, state, or fact of being indifferent',

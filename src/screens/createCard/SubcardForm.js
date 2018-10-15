@@ -23,6 +23,13 @@ const SubcardForm = ({
           onChange={e => onChangeInput(e, subcardIndex)}
         />
         <Input
+          id={'pos'}
+          label={'pos'}
+          mb={4}
+          value={subcard.pos}
+          onChange={e => onChangeInput(e, subcardIndex)}
+        />
+        <Input
           id={'phonetic'}
           label={'phonetic'}
           mb={4}
