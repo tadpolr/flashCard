@@ -17,11 +17,11 @@ class SessionScreen extends Component {
   getCards = () => {
     const queryDate = moment()
       .add(3, 'days')
-      .format();
+      .format('YYYYMMDD');
     firestore
       .collection('cards')
-      .where('nextDate', '<=', queryDate)
-      .orderBy('nextDate', 'desc')
+      .where('formattedNextDate', '<=', queryDate.toString())
+      .orderBy('formattedNextDate', 'desc')
       .get()
       .then(querySnapshot => {
         let cards = [];
@@ -57,65 +57,3 @@ class SessionScreen extends Component {
 SessionScreen.propTypes = {};
 
 export default SessionScreen;
-
-const mockData = [
-  {
-    title: 'indifference',
-    description: 'des crip tion',
-    multiplier: 1.5,
-    lastTransaction: '2018-10-4T16:08:18+07:00',
-    note: 'note',
-    subcards: [
-      {
-        word: 'indifference',
-        pos: 'n.',
-        phonetic: 'in-ˈdi-fərn(t)s',
-        meanings: [
-          'the quality, state, or fact of being indifferent',
-          'absence of compulsion to or toward one thing or another',
-        ],
-        examples: [
-          'She was amazed that some people could watch the trial with indifference.',
-          'She watched them with a cool indifference.',
-        ],
-        synonyms: 'apathy, casualness, complacence, disinterestedness, disregard',
-      },
-      {
-        word: 'indifferent',
-        pos: 'adj.',
-        phonetic: 'in-ˈdi-fərn(t)s',
-        meanings: [
-          'the quality, state, or fact of being indifferent',
-          'absence of compulsion to or toward one thing or another',
-        ],
-        examples: [
-          'She was amazed that some people could watch the trial with indifference.',
-          'She watched them with a cool indifference.',
-        ],
-        synonyms: 'apathy, casualness, complacence, disinterestedness, disregard',
-      },
-    ],
-  },
-  {
-    title: 'ti tle 2',
-    description: 'des crip tion 2',
-    multiplier: 1.5,
-    lastTransaction: '2018-10-2T16:08:18+07:00',
-    note: 'note',
-    subcards: [
-      {
-        word: 'indifference',
-        phonetic: 'in-ˈdi-fərn(t)s',
-        meanings: [
-          'the quality, state, or fact of being indifferent',
-          'absence of compulsion to or toward one thing or another',
-        ],
-        examples: [
-          'She was amazed that some people could watch the trial with indifference.',
-          'She watched them with a cool indifference.',
-        ],
-        synonyms: 'apathy, casualness, complacence, disinterestedness, disregard',
-      },
-    ],
-  },
-];

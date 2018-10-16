@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { firestore } from '../../firebase';
-import { Box, Button, Divider, Input, Select, Textarea } from '../../components/base';
+import { Box, Button, Divider, Input, Textarea } from '../../components/base';
 import SubcardForm from './SubcardForm';
 import { RESULTS, MULTIPLIER } from '../../common/const';
 class CreateCardForm extends Component {
@@ -18,10 +18,15 @@ class CreateCardForm extends Component {
   createCardData = () => {
     const { title, description, multiplier, subcards, note } = this.state;
     const today = moment().format();
-    const initialMultiplier = multiplier || MULTIPLIER.INIT;
+    const formattedToday = moment().format('YYYYMMDD');
+    const initialMultiplier = multiplier || MULTIPLIER.DEFAULT;
+    const nextInterval = 1;
     const nextDate = moment()
-      .add(1, 'days')
+      .add(nextInterval, 'days')
       .format();
+    const formattedNextDate = moment()
+      .add(nextInterval, 'days')
+      .format('YYYYMMDD');
 
     return {
       title: title,
@@ -29,8 +34,17 @@ class CreateCardForm extends Component {
       subcards: subcards,
       initialMultiplier: initialMultiplier,
       note: note,
-      transactions: [{ date: today, result: RESULTS.NEW_WORD, durationToNext: 1 }],
+      transactions: [
+        {
+          date: today,
+          formattedDate: formattedToday,
+          result: RESULTS.NEW_WORD,
+          nextInterval: nextInterval,
+          multiplier: MULTIPLIER.INIT,
+        },
+      ],
       nextDate: nextDate,
+      formattedNextDate: formattedNextDate,
     };
   };
 

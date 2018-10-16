@@ -10,7 +10,12 @@ class SessionCard extends Component {
   state = {
     isReviewing: false,
   };
-
+  handleNext = recognizeRate => {
+    this.setState({
+      isReviewing: false,
+    });
+    this.props.onNext(recognizeRate);
+  };
   handleClickViewMeaning = () => {
     this.setState({
       isReviewing: true,
@@ -37,7 +42,7 @@ class SessionCard extends Component {
             variant={'default'}
             colors={'success'}
             mb={[4, 4, 6]}
-            onClick={() => onNext(RESULTS.EASILY_RECOGNIZE)}
+            onClick={() => this.handleNext(RESULTS.EASILY_RECOGNIZE)}
           >
             I can easily recognize this word.
           </Button>
@@ -46,7 +51,7 @@ class SessionCard extends Component {
             variant={'outline'}
             colors={'warning'}
             mb={[4, 4, 6]}
-            onClick={() => onNext(RESULTS.HARDLY_RECOGNIZE)}
+            onClick={() => this.handleNext(RESULTS.HARDLY_RECOGNIZE)}
           >
             I can hardly recognize this word.
           </Button>
@@ -54,7 +59,7 @@ class SessionCard extends Component {
             variant={'outline'}
             colors={'danger'}
             mb={[4, 4, 6]}
-            onClick={() => onNext(RESULTS.NOT_RECOGNIZE)}
+            onClick={() => this.handleNext(RESULTS.NOT_RECOGNIZE)}
           >
             I can cannot recognize this word.
           </Button>
