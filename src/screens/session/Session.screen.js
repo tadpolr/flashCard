@@ -15,9 +15,7 @@ class SessionScreen extends Component {
   }
 
   getCards = () => {
-    const queryDate = moment()
-      .add(3, 'days')
-      .format('YYYYMMDD');
+    const queryDate = moment().format('YYYYMMDD');
     firestore
       .collection('cards')
       .where('formattedNextDate', '<=', queryDate.toString())
