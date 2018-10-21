@@ -18,5 +18,7 @@ firestore.settings({
   timestampsInSnapshots: true,
 });
 
-export { fire, firestore };
+var fireAuth = firebase.auth();
+
+export { fire, firestore, fireAuth };
 export default fire;
