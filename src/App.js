@@ -11,7 +11,7 @@ import { Provider, Container } from 'rebass';
 
 import { theme } from './theme';
 import { Flex, Button, Text } from './components/base';
-import { fireAuth } from './firebase';
+import { fireAuth, firestore } from './firebase';
 
 import SessionScreen from './screens/session';
 import PreSessionScreen from './screens/preSession';
@@ -48,7 +48,18 @@ class App extends Component {
       }
     });
   }
-
+  backupCards = () => {
+    firestore
+      .collection('cards')
+      .get()
+      .then(querySnapshot => {
+        let cards = [];
+        querySnapshot.forEach(doc => {
+          cards.push(doc.data());
+        });
+        console.log(JSON.stringify(cards));
+      });
+  };
   handleLogout = () => {
     fireAuth
       .signOut()
