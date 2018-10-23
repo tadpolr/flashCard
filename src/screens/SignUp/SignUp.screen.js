@@ -46,7 +46,6 @@ class SignUp extends Component {
     this.setState({
       [id]: value,
     });
-    console.log('change');
   };
 
   render() {

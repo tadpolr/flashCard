@@ -50,9 +50,12 @@ class CreateCardForm extends Component {
 
   handleAddCard = () => {
     const { title } = this.state;
+    const { userInfo } = this.props;
+    const { uid } = userInfo;
     const newWord = this.createCardData();
+
     firestore
-      .collection('cards')
+      .collection(uid)
       .doc(title)
       .set(newWord, { merge: true })
       .then(data => {

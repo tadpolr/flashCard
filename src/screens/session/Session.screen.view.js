@@ -27,13 +27,14 @@ class SessionScreen extends Component {
   };
   render() {
     const { currentCardIndex } = this.state;
-    const { cards } = this.props;
+    const { cards, userInfo } = this.props;
     if (cards.length < 1) {
       return null;
     }
     return (
       <Box py={[4, 4, 6]}>
         <SessionCard
+          userInfo={userInfo}
           title={cards[currentCardIndex].title}
           description={cards[currentCardIndex].description}
           transactions={cards[currentCardIndex].transactions}

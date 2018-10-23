@@ -8,7 +8,8 @@ import SessionCardView from './SessionCard.view';
 import { RESULTS } from '../../../common/const';
 class SessionCard extends Component {
   handleNext = recognizeRate => {
-    const { title, transactions, initialMultiplier } = this.props;
+    const { title, transactions, initialMultiplier, userInfo } = this.props || {};
+    const { uid } = userInfo;
 
     const today = moment().format();
     const formattedToday = moment().format('YYYYMMDD');
@@ -35,7 +36,7 @@ class SessionCard extends Component {
       .format('YYYYMMDD');
 
     firestore
-      .collection('cards')
+      .collection(uid)
       .doc(title)
       .set(
         { transactions: newTransactions, nextDate: nextDate, formattedNextDate: formattedNextDate },

@@ -44,7 +44,7 @@ class SessionCard extends Component {
             mb={[4, 4, 6]}
             onClick={() => this.handleNext(RESULTS.EASILY_RECOGNIZE)}
           >
-            I easily recognized this word.
+            Yeah! I know this word.
           </Button>
 
           <Button
@@ -53,7 +53,7 @@ class SessionCard extends Component {
             mb={[4, 4, 6]}
             onClick={() => this.handleNext(RESULTS.HARDLY_RECOGNIZE)}
           >
-            I hardly recognized this word.
+            Umm! Let me think first ...
           </Button>
           <Button
             variant={'outline'}
@@ -61,7 +61,7 @@ class SessionCard extends Component {
             mb={[4, 4, 6]}
             onClick={() => this.handleNext(RESULTS.NOT_RECOGNIZE)}
           >
-            I didn't recognize this word.
+            No! I don't know this word.
           </Button>
         </Flex>
       </Box>

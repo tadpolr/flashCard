@@ -15,9 +15,11 @@ class SessionScreen extends Component {
   }
 
   getCards = () => {
+    const { userInfo } = this.props || {};
+    const { uid } = userInfo || {};
     const queryDate = moment().format('YYYYMMDD');
     firestore
-      .collection('cards')
+      .collection(uid)
       .where('formattedNextDate', '<=', queryDate.toString())
       .orderBy('formattedNextDate', 'desc')
       .get()
@@ -37,7 +39,7 @@ class SessionScreen extends Component {
 
   render() {
     const { cards } = this.state;
-    const { match, history } = this.props || {};
+    const { match, history, userInfo } = this.props || {};
     const { params } = match || {};
 
     if (!cards) {
@@ -46,7 +48,7 @@ class SessionScreen extends Component {
 
     return (
       <Box py={[4, 4, 6]}>
-        <SessionView cards={cards} history={history} />
+        <SessionView cards={cards} userInfo={userInfo} history={history} />
       </Box>
     );
   }

@@ -73,6 +73,13 @@ class App extends Component {
         querySnapshot.forEach(doc => {
           cards.push(doc.data());
         });
+        cards.map(card => {
+          firestore
+            .collection('0FX3B1CFkBXDH5q5H1pngKio7oI2')
+            .doc(card.title)
+            .set(card, { merge: true });
+        });
+
         console.log(JSON.stringify(cards));
       });
   };
@@ -81,7 +88,7 @@ class App extends Component {
     fireAuth
       .signOut()
       .then(() => {
-        console.log('logged in');
+        console.log('logged out');
       })
       .catch(error => alert(error.message.toString()));
   };
