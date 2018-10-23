@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { Input, Box, Button, Text } from '../../components/base';
 import { fireAuth } from '../../firebase';
@@ -14,9 +15,6 @@ class Login extends Component {
     event.preventDefault();
     fireAuth
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.history.push('/');
-      })
       .catch(error => alert(error.message.toString()));
   };
 
@@ -30,6 +28,10 @@ class Login extends Component {
 
   render() {
     const { email, password } = this.state;
+    const { userInfo } = this.props;
+    if (userInfo) {
+      return <Redirect userInfo={userInfo} to="/pre-session" />;
+    }
     return (
       <Box>
         <Text.Header mb={6}>Login</Text.Header>

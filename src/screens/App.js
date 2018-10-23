@@ -9,17 +9,17 @@ import {
 import styled from 'styled-components';
 import { Provider, Container } from 'rebass';
 
-import { theme } from './theme';
-import { Flex, Button, Text } from './components/base';
-import { fireAuth, firestore } from './firebase';
+import { theme } from '../../theme';
+import { Flex, Button, Text } from '../../components/base';
+import { fireAuth, firestore } from '../../firebase';
 
-import SessionScreen from './screens/session';
-import PreSessionScreen from './screens/preSession';
-import PostSessionScreen from './screens/postSession';
-import CreateCardScreen from './screens/createCard';
-import CardListScreen from './screens/cardList';
-import SignUpScreen from './screens/SignUp';
-import LoginScreen from './screens/login';
+import SessionScreen from '../session';
+import PreSessionScreen from '../preSession';
+import PostSessionScreen from '../postSession';
+import CreateCardScreen from '../createCard';
+import CardListScreen from '../cardList';
+import SignUpScreen from '../SignUp';
+import LoginScreen from '../login';
 
 const Route = ({ userInfo, privateRoute, exact, path, component }) => {
   if (privateRoute && !userInfo) {
@@ -48,6 +48,8 @@ class App extends Component {
       }
     });
   }
+
+  // This func is used to back up database.
   backupCards = () => {
     firestore
       .collection('cards')
@@ -60,6 +62,7 @@ class App extends Component {
         console.log(JSON.stringify(cards));
       });
   };
+
   handleLogout = () => {
     fireAuth
       .signOut()
