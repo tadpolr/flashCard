@@ -21,8 +21,9 @@ import CardListScreen from '../cardList';
 import SignUpScreen from '../SignUp';
 import LoginScreen from '../login';
 
-const RenderComponent = ({ component, userInfo, ...routeProps }) => {
-  return React.createElement(component, { userInfo, ...routeProps });
+const RenderComponent = ({ component, userInfo, routeProps }) => {
+  const { history, match, location } = routeProps;
+  return React.createElement(component, { userInfo, history, match, location });
 };
 
 const Route = ({ userInfo, privateRoute, exact, path, component }) => {
