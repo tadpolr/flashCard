@@ -16,5 +16,5 @@ const theme = {
   colorStyles: colorStyles,
 };
 
-export { theme };
+export { theme, colors as COLOR };
 export default theme;

@@ -6,42 +6,41 @@ import { last } from 'lodash';
 import { firestore } from '../../../firebase';
 import SessionCardView from './SessionCard.view';
 import { RESULTS } from '../../../common/const';
+
+const getDrillPoints = recognizeRate => {
+  switch (recognizeRate) {
+    case RESULTS.NOT_RECOGNIZE:
+      return 0;
+    case RESULTS.HARDLY_RECOGNIZE:
+      return 1;
+    case RESULTS.EASILY_RECOGNIZE:
+      return 1;
+    default:
+      return 1;
+  }
+};
 class SessionCard extends Component {
   handleNext = recognizeRate => {
-    const { title, transactions, initialMultiplier, userInfo } = this.props || {};
+    const { title, transactions, userInfo } = this.props || {};
     const { uid } = userInfo;
 
     const today = moment().format();
     const formattedToday = moment().format('YYYYMMDD');
-    const nextMultiplier = initialMultiplier; // If we want to make multiplier increased exponentially, modify this line.
 
-    const isResultCorrect = recognizeRate === RESULTS.NOT_RECOGNIZE ? false : true;
-    const lastInterval = last(transactions).nextInterval;
-    const nextInterval = isResultCorrect ? Math.ceil(lastInterval * nextMultiplier) : lastInterval;
+    const drillPoints = getDrillPoints(recognizeRate);
 
     const newTransaction = {
       date: today,
       formattedDate: formattedToday,
       result: recognizeRate,
-      multiplier: nextMultiplier,
-      nextInterval: nextInterval,
     };
 
     const newTransactions = [...transactions, newTransaction];
-    const nextDate = moment()
-      .add(nextInterval, 'days')
-      .format();
-    const formattedNextDate = moment()
-      .add(nextInterval, 'days')
-      .format('YYYYMMDD');
 
     firestore
       .collection(uid)
       .doc(title)
-      .set(
-        { transactions: newTransactions, nextDate: nextDate, formattedNextDate: formattedNextDate },
-        { merge: true }
-      )
+      .set({ drillTransactions: newTransactions, drillPoints: drillPoints }, { merge: true })
       .then(() => {
         console.log('Document successfully written!');
       })

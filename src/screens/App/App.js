@@ -3,17 +3,18 @@ import {
   BrowserRouter as Router,
   Switch,
   Route as RouteBase,
-  Link,
+  NavLink,
   Redirect,
 } from 'react-router-dom';
 import styled from 'styled-components';
 import { Provider, Container } from 'rebass';
 
-import { theme } from '../../theme';
+import { theme, COLOR } from '../../theme';
 import { Flex, Button, Text } from '../../components/base';
 import { fireAuth, firestore } from '../../firebase';
 
 import SessionScreen from '../session';
+import DrillScreen from '../drill';
 import PreSessionScreen from '../preSession';
 import PostSessionScreen from '../postSession';
 import CreateCardScreen from '../createCard';
@@ -64,25 +65,23 @@ class App extends Component {
   }
 
   // This func is used to back up database.
-  backupCards = () => {
-    firestore
-      .collection('cards')
-      .get()
-      .then(querySnapshot => {
-        let cards = [];
-        querySnapshot.forEach(doc => {
-          cards.push(doc.data());
-        });
-        cards.map(card => {
-          firestore
-            .collection('0FX3B1CFkBXDH5q5H1pngKio7oI2')
-            .doc(card.title)
-            .set(card, { merge: true });
-        });
+  // backupCards = () => {
+  //   firestore
+  //     .collection('0FX3B1CFkBXDH5q5H1pngKio7oI2')
+  //     .get()
+  //     .then(querySnapshot => {
+  //       let cards = [];
+  //       querySnapshot.forEach(doc => {
+  //         cards.push(doc.data());
+  //       });
+  //       cards.map(card => {
+  //         firestore.collection('0FX3B1CFkBXDH5q5H1pngKio7oI2').doc(card.title);
+  //         .set({}, { merge: true });
+  //       });
 
-        console.log(JSON.stringify(cards));
-      });
-  };
+  //       console.log(JSON.stringify(cards));
+  //     });
+  // };
 
   handleLogout = () => {
     fireAuth
@@ -115,13 +114,26 @@ class App extends Component {
                 )}
               </Flex>
               <Flex w={1} justifyContent={['space-between', 'start']}>
-                <Link to="/cards" style={{ marginRight: '36px' }}>
-                  Word List
-                </Link>
-                <Link to="/pre-session" style={{ marginRight: '36px' }}>
+                <NavLink
+                  to="/drill"
+                  style={{ marginRight: '36px' }}
+                  activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
+                >
+                  Drill
+                </NavLink>
+                <NavLink
+                  to="/pre-session"
+                  style={{ marginRight: '36px' }}
+                  activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
+                >
                   Session
-                </Link>
-                <Link to="/create-card">Create card</Link>
+                </NavLink>
+                <NavLink
+                  to="/create-card"
+                  activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
+                >
+                  Create card
+                </NavLink>
               </Flex>
             </Flex>
             <Switch>
@@ -161,6 +173,13 @@ class App extends Component {
                 privateRoute={true}
                 path="/session/:date"
                 component={SessionScreen}
+              />
+              <Route
+                exact={true}
+                userInfo={userInfo}
+                privateRoute={true}
+                path="/drill"
+                component={DrillScreen}
               />
               <Route
                 exact={true}

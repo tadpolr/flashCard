@@ -4,7 +4,7 @@ import moment from 'moment';
 import { firestore } from '../../firebase';
 
 import { Box, Text } from '../../components/base';
-import SessionView from './Session.screen.view';
+import SessionView from './Drill.screen.view';
 class SessionScreen extends Component {
   state = {
     cards: null,
@@ -20,8 +20,7 @@ class SessionScreen extends Component {
     const queryDate = moment().format('YYYYMMDD');
     firestore
       .collection(uid)
-      .where('formattedNextDate', '<=', queryDate.toString())
-      .orderBy('formattedNextDate', 'desc')
+      .orderBy('drillPoints')
       .get()
       .then(querySnapshot => {
         let cards = [];
