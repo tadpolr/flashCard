@@ -34,6 +34,7 @@ class CreateCardForm extends Component {
       subcards: subcards,
       initialMultiplier: initialMultiplier,
       note: note,
+      drillPoints: 0,
       transactions: [
         {
           date: today,
