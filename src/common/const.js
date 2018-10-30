@@ -9,3 +9,4 @@ export const MULTIPLIER = {
   INIT: 1,
   DEFAULT: 1.5,
 };
+

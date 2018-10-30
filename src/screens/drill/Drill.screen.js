@@ -23,7 +23,6 @@ class SessionScreen extends Component {
   getCards = () => {
     const { userInfo } = this.props || {};
     const { uid } = userInfo || {};
-    const queryDate = moment().format('YYYYMMDD');
     firestore
       .collection(uid)
       .get()
