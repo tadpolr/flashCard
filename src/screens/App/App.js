@@ -116,23 +116,30 @@ class App extends Component {
               <Flex w={1} justifyContent={['space-between', 'start']}>
                 <NavLink
                   to="/drill"
-                  style={{ marginRight: '36px' }}
+                  style={{ marginRight: '24px' }}
                   activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
                 >
                   Drill
                 </NavLink>
                 <NavLink
                   to="/pre-session"
-                  style={{ marginRight: '36px' }}
+                  style={{ marginRight: '24px' }}
                   activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
                 >
                   Session
                 </NavLink>
                 <NavLink
                   to="/create-card"
+                  style={{ marginRight: '24px' }}
                   activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
                 >
-                  Create card
+                  Create
+                </NavLink>
+                <NavLink
+                  to="/cards"
+                  activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
+                >
+                  List
                 </NavLink>
               </Flex>
             </Flex>
