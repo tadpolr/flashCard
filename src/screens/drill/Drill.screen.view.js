@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { shuffle } from 'lodash';
 
 import { Box } from '../../components/base';
 import SessionCard from './SessionCard';
+import { RESULTS } from '../../common/const';
+
 class SessionScreen extends Component {
-  state = {
-    currentCardIndex: 0,
-  };
   componentDidMount() {
-    if (this.props.cards.length < 1) {
+    if (this.props.cards.length <= 0) {
       this.props.history.push('/post-session');
     }
   }
-  handleNext = () => {
-    const { currentCardIndex } = this.state;
-    const { cards, history } = this.props;
-    const cardCount = cards.length;
-    if (currentCardIndex === cardCount - 1) {
+  handleNext = recognizeRate => {
+    const { cards, history, updateCards } = this.props;
+
+    let updatedCards = [...cards]
+
+    if (recognizeRate === RESULTS.NOT_RECOGNIZE) {
+      updatedCards = shuffle(updatedCards) 
+    } else {
+      updatedCards.splice(0, 1)
+    }
+    
+    if (updatedCards.length === 0) {
       history.push('/post-session');
     } else {
-      this.setState({
-        currentCardIndex: this.state.currentCardIndex + 1,
-      });
+      updateCards(updatedCards);
     }
   };
+
   render() {
-    const { currentCardIndex } = this.state;
     const { cards, userInfo } = this.props;
     if (cards.length < 1) {
       return null;
@@ -35,11 +40,12 @@ class SessionScreen extends Component {
       <Box py={[4, 4, 6]}>
         <SessionCard
           userInfo={userInfo}
-          title={cards[currentCardIndex].title}
-          description={cards[currentCardIndex].description}
-          transactions={cards[currentCardIndex].transactions}
-          initialMultiplier={cards[currentCardIndex].initialMultiplier}
-          subcards={cards[currentCardIndex].subcards}
+          title={cards[0].title}
+          description={cards[0].description}
+          transactions={cards[0].transactions}
+          initialMultiplier={cards[0].initialMultiplier}
+          subcards={cards[0].subcards}
+          currentDrillPoint={cards[0].drillPoints}
           onNext={this.handleNext}
         />
       </Box>
