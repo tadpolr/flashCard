@@ -14,20 +14,20 @@ const getDrillPoints = recognizeRate => {
     case RESULTS.HARDLY_RECOGNIZE:
       return 1;
     case RESULTS.EASILY_RECOGNIZE:
-      return 1;
+      return 3;
     default:
       return 1;
   }
 };
 class SessionCard extends Component {
   handleNext = recognizeRate => {
-    const { title, transactions, userInfo } = this.props || {};
+    const { title, transactions, userInfo, drillPoints } = this.props || {};
     const { uid } = userInfo;
 
     const today = moment().format();
     const formattedToday = moment().format('YYYYMMDD');
 
-    const drillPoints = getDrillPoints(recognizeRate);
+    const updatedDrillPoints = (drillPoints || 0) + getDrillPoints(recognizeRate);
 
     const newTransaction = {
       date: today,
@@ -40,14 +40,14 @@ class SessionCard extends Component {
     firestore
       .collection(uid)
       .doc(title)
-      .set({ drillTransactions: newTransactions, drillPoints: drillPoints }, { merge: true })
+      .set({ drillTransactions: newTransactions, drillPoints: updatedDrillPoints }, { merge: true })
       .then(() => {
         console.log('Document successfully written!');
       })
       .catch(error => {
         console.error('Error writing document: ', error);
       })
-      .then(this.props.onNext());
+      .then(this.props.onNext(recognizeRate));
   };
 
   render() {

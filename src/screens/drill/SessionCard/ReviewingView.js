@@ -47,10 +47,10 @@ const ReviewingView = ({ title, description, subcards }) => (
       <Text color={'secondaryLight'}>{description}</Text>
     </Box>
     <Divider my={6} />
-    {subcards.map(subcard => {
+    {subcards.map((subcard, index) => {
       return (
         <Subcard
-          key={subcard.word}
+          key={index}
           word={subcard.word}
           pos={subcard.pos}
           phonetic={subcard.phonetic}
