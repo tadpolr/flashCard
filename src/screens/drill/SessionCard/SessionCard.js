@@ -7,7 +7,11 @@ import { firestore } from '../../../firebase';
 import SessionCardView from './SessionCard.view';
 import { RESULTS } from '../../../common/const';
 
-const getDrillPoints = recognizeRate => {
+const getDrillPoints = (recognizeRate, incorrectCount) => {
+  if (incorrectCount && incorrectCount > 0) {
+    return  recognizeRate === RESULTS.NOT_RECOGNIZE ? -incorrectCount :  0
+  }
+
   switch (recognizeRate) {
     case RESULTS.NOT_RECOGNIZE:
       return 0;
@@ -19,15 +23,27 @@ const getDrillPoints = recognizeRate => {
       return 1;
   }
 };
+
 class SessionCard extends Component {
   handleNext = recognizeRate => {
-    const { title, transactions, userInfo, drillPoints } = this.props || {};
+    const { 
+      title, 
+      transactions, 
+      userInfo, 
+      drillPoints, 
+      setCardIncorrectCount,
+      incorrectCount 
+    } = this.props || {};
     const { uid } = userInfo;
-
     const today = moment().format();
     const formattedToday = moment().format('YYYYMMDD');
 
-    const updatedDrillPoints = (drillPoints || 0) + getDrillPoints(recognizeRate);
+    const updatedDrillPoints = (drillPoints || 0) + getDrillPoints(recognizeRate, incorrectCount);
+
+    const newIncorrectCount = recognizeRate === RESULTS.NOT_RECOGNIZE 
+      ? incorrectCount ? incorrectCount + 1 : 1
+      : 0
+    setCardIncorrectCount(newIncorrectCount)
 
     const newTransaction = {
       date: today,
