@@ -60,7 +60,12 @@ class SessionScreen extends Component {
 
     return (
       <Box py={[4, 4, 6]}>
-        <SessionView cards={cards} userInfo={userInfo} history={history} updateCards={this.updateCards} />
+        <SessionView 
+          cards={cards} 
+          userInfo={userInfo} 
+          history={history} 
+          updateCards={this.updateCards} 
+        />
       </Box>
     );
   }

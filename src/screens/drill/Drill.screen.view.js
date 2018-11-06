@@ -13,6 +13,7 @@ class SessionScreen extends Component {
       this.props.history.push('/post-session');
     }
   }
+
   handleNext = recognizeRate => {
     const { cards, history, updateCards } = this.props;
 
@@ -31,6 +32,11 @@ class SessionScreen extends Component {
     }
   };
 
+  setCardIncorrectCount = count => {
+    const { cards } = this.props;
+    cards[0].incorrectCount = count
+  }
+
   render() {
     const { cards, userInfo } = this.props;
     if (cards.length < 1) {
@@ -46,6 +52,8 @@ class SessionScreen extends Component {
           initialMultiplier={cards[0].initialMultiplier}
           subcards={cards[0].subcards}
           currentDrillPoint={cards[0].drillPoints}
+          incorrectCount={cards[0].incorrectCount}
+          setCardIncorrectCount={this.setCardIncorrectCount}
           onNext={this.handleNext}
         />
       </Box>
