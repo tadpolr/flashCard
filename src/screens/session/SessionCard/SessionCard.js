@@ -5,10 +5,11 @@ import { last } from 'lodash';
 
 import { firestore } from '../../../firebase';
 import SessionCardView from './SessionCard.view';
-import { RESULTS } from '../../../common/const';
+import { RESULTS, SESSION_MODE } from '../../../common/const';
 class SessionCard extends Component {
   handleNext = recognizeRate => {
-    const { title, transactions, initialMultiplier, userInfo } = this.props || {};
+    const { title, transactions, reviewTransactions = [], initialMultiplier, userInfo, mode } =
+      this.props || {};
     const { uid } = userInfo;
 
     const today = moment().format();
@@ -28,6 +29,7 @@ class SessionCard extends Component {
     };
 
     const newTransactions = [...transactions, newTransaction];
+    const newReviewTransactions = [...reviewTransactions, newTransaction];
     const nextDate = moment()
       .add(nextInterval, 'days')
       .format();
@@ -35,13 +37,28 @@ class SessionCard extends Component {
       .add(nextInterval, 'days')
       .format('YYYYMMDD');
 
+    const updateData =
+      mode === SESSION_MODE.SESSION
+        ? {
+            transactions: newTransactions,
+            nextDate: nextDate,
+            formattedNextDate: formattedNextDate,
+            lastDate: today,
+            formattedLastDate: formattedToday,
+            lastResult: recognizeRate,
+          }
+        : mode === SESSION_MODE.REVIEW
+          ? {
+              lastResult: recognizeRate,
+              reviewTransaction: newReviewTransactions,
+              lastDate: today,
+              formattedLastDate: formattedToday,
+            }
+          : {};
     firestore
       .collection(uid)
       .doc(title)
-      .set(
-        { transactions: newTransactions, nextDate: nextDate, formattedNextDate: formattedNextDate },
-        { merge: true }
-      )
+      .set(updateData, { merge: true })
       .then(() => {
         console.log('Document successfully written!');
       })

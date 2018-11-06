@@ -64,24 +64,39 @@ class App extends Component {
     });
   }
 
-  // This func is used to back up database.
-  // backupCards = () => {
-  //   firestore
-  //     .collection('0FX3B1CFkBXDH5q5H1pngKio7oI2')
-  //     .get()
-  //     .then(querySnapshot => {
-  //       let cards = [];
-  //       querySnapshot.forEach(doc => {
-  //         cards.push(doc.data());
+  // handleTestUser = cards => {
+  //   cards.map(card => {
+  //     firestore
+  //       .collection('JCPfVUTM2rggsBBM0wXsu3gLGM02')
+  //       .doc(card.title)
+  //       .set(card, { merge: true })
+  //       .then(() => {
+  //         console.log('Document successfully written!');
+  //       })
+  //       .catch(error => {
+  //         console.error('Error writing document: ', error);
   //       });
-  //       cards.map(card => {
-  //         firestore.collection('0FX3B1CFkBXDH5q5H1pngKio7oI2').doc(card.title);
-  //         .set({}, { merge: true });
-  //       });
-
-  //       console.log(JSON.stringify(cards));
-  //     });
+  //   });
   // };
+
+  handleBackup = () => {
+    const { userInfo } = this.state;
+    const { uid } = userInfo || {};
+    firestore
+      .collection(uid)
+      .get()
+      .then(querySnapshot => {
+        let cards = [];
+        querySnapshot.forEach(doc => {
+          cards.push(doc.data());
+        });
+
+        // This is for copying data from current user to test user.
+        // this.handleTestUser(cards);
+
+        console.log(JSON.stringify(cards));
+      });
+  };
 
   handleLogout = () => {
     fireAuth
@@ -102,15 +117,27 @@ class App extends Component {
               <Flex w={1} justifyContent={'space-between'} alignItems={'center'} mb={6}>
                 <Text>{userInfo ? userInfo.email : 'Oops! you are not logged in.'}</Text>
                 {userInfo && (
-                  <Button
-                    condense={true}
-                    ml={'auto'}
-                    variant={'outline'}
-                    colors={'warning'}
-                    onClick={this.handleLogout}
-                  >
-                    Log out
-                  </Button>
+                  <Flex>
+                    <Button
+                      condense={true}
+                      ml={'auto'}
+                      mr={2}
+                      variant={'default'}
+                      colors={'secondary'}
+                      onClick={this.handleBackup}
+                    >
+                      Back up
+                    </Button>
+                    <Button
+                      condense={true}
+                      ml={'auto'}
+                      variant={'outline'}
+                      colors={'warning'}
+                      onClick={this.handleLogout}
+                    >
+                      Log out
+                    </Button>
+                  </Flex>
                 )}
               </Flex>
               <Flex w={1} justifyContent={['space-between', 'start']}>
@@ -135,10 +162,7 @@ class App extends Component {
                 >
                   Create
                 </NavLink>
-                <NavLink
-                  to="/cards"
-                  activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}
-                >
+                <NavLink to="/cards" activeStyle={{ color: COLOR.primary, fontWeight: 'bold' }}>
                   List
                 </NavLink>
               </Flex>
@@ -178,7 +202,7 @@ class App extends Component {
                 exact={true}
                 userInfo={userInfo}
                 privateRoute={true}
-                path="/session/:date"
+                path="/session/:date/:mode"
                 component={SessionScreen}
               />
               <Route

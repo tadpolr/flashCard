@@ -10,3 +10,7 @@ export const MULTIPLIER = {
   DEFAULT: 1.5,
 };
 
+export const SESSION_MODE = {
+  SESSION: 'SESSION',
+  REVIEW: 'REVIEW',
+};

@@ -27,17 +27,19 @@ class SessionScreen extends Component {
   };
   render() {
     const { currentCardIndex } = this.state;
-    const { cards, userInfo } = this.props;
+    const { cards, userInfo, mode } = this.props;
     if (cards.length < 1) {
       return null;
     }
     return (
       <Box py={[4, 4, 6]}>
         <SessionCard
+          mode={mode}
           userInfo={userInfo}
           title={cards[currentCardIndex].title}
           description={cards[currentCardIndex].description}
           transactions={cards[currentCardIndex].transactions}
+          reviewTransactions={cards[currentCardIndex].reviewTransactions}
           initialMultiplier={cards[currentCardIndex].initialMultiplier}
           subcards={cards[currentCardIndex].subcards}
           onNext={this.handleNext}
